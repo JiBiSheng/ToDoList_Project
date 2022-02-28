@@ -3,7 +3,7 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <MyHeader @addTodo="addTodo"/>
-        <MyList :todos="todos" :checkDone="checkDone" :removeItem="removeItem"/>
+        <MyList :todos="todos"/>
         <MyFooter :todos="todos" @checkAllTodo="checkAllTodo" @removeAllDone="removeAllDone"/>
       </div>
     </div>
@@ -31,6 +31,13 @@ export default {
       addTodo(addTodoObj){
           this.todos.unshift(addTodoObj);
       },
+      editItem(id,title){
+        this.todos.forEach(todo=>{
+          if(id===todo.id){
+            todo.title=title;
+          }
+        })
+      },
       checkDone(id){
         this.todos.forEach(todo=>{
             if(todo.id===id)todo.done=!todo.done;
@@ -56,7 +63,18 @@ export default {
       }
 
     }
+  },
+  mounted(){
+    this.$bus.$on('checkDone',this.checkDone);
+    this.$bus.$on('removeItem',this.removeItem);
+    this.$bus.$on('editItem',this.editItem);
+  },
+  beforeDestroy(){
+    this.$bus.$off('checkDone');
+    this.$bus.$off('removeItem');
+    this.$bus.$off('editItem');
   }
+
 };
 </script>
 
@@ -83,6 +101,11 @@ export default {
     color: #fff;
     background-color: #da4f49;
     border: 1px solid #bd362f;
+    }
+    .btn-Edit{
+      color: #fff;
+      background-color: green;
+      border: 1px solid #63bd2f;
     }
 
     .btn-danger:hover {
