@@ -3,7 +3,7 @@
     <label>
       <input type="checkbox" v-model="isAll"/>
     </label>
-    <span> <span>{{doneTotals}}</span> / 全部{{Total}}</span>
+    <span> <span>已选{{doneTotals}}</span> / 全部{{Total}}</span>
     <button class="btn btn-danger" @click="DeletAllDone">清除已完成任务</button>
   </div>
 </template>
